@@ -1,37 +1,36 @@
 class Solution {
     public String longestPalindrome(String s) {
-        String LPS = "";
+        String lps = "";
+        int n = s.length();
         if(s.length() <= 1) return s;
-        for(int i = 0; i<s.length()-1; i++){
+        //odd length palindrome
+        for(int i=0; i<n; i++){
             int low = i;
-            int high = i;
-            while(s.charAt(low) == s.charAt(high)){
+            int high =i;
+            while(low <= high && s.charAt(low) == s.charAt(high)){
                 low--;
                 high++;
-                if(low == -1 || high == s.length()){
+                if(low <0 || high>=n){
                     break;
                 }
             }
-                String palindrome = s.substring(low+1, high);
-                if(palindrome.length()> LPS.length()){
-                    LPS = palindrome;
-                }   
+            String palindrome = s.substring(low+1,high);
+            if(palindrome.length() >= lps.length()){
+                lps = palindrome;
+            }
         }
-        for(int i = 1; i<s.length(); i++){
-            int low = i-1;
-            int high = i;
-            while(s.charAt(low) == s.charAt(high)){
+        for(int i=0; i<n; i++){
+            int low = i;
+            int high =i+1;
+            while (low >= 0 && high < n && s.charAt(low) == s.charAt(high)) {
                 low--;
                 high++;
-                if(low == -1 || high == s.length()){
-                    break;
-                }
             }
-                String palindrome = s.substring(low+1, high);
-                if(palindrome.length()> LPS.length()){
-                    LPS = palindrome;
-                }   
+            String palindrome = s.substring(low+1,high);
+            if(palindrome.length() >= lps.length()){
+                lps = palindrome;
+            }
         }
-        return LPS;
+        return lps;
     }
 }   
