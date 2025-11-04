@@ -1,24 +1,19 @@
 class Solution {
-    public long helper(long base, long expo, long mod){
-        long ans =1;
-        while(expo>0){
-        if(expo%2==0){
-            base = (base*base)%mod;
-            expo = expo/2;
-        }else{
-            ans = (ans*base)%mod;
-            expo = expo-1;
-        }
-        }
-        return ans;
-    }
-
+    private long mod = 1000000007;
     public int countGoodNumbers(long n) {
-        if(n==1) return 5;
-        long even = (n+1)/2;
         long odd = n/2;
-        long mod = 1000000007;
-        return (int)((helper(5,even,mod)*helper(4,odd,mod))%mod);
+        long even = (n+1)/2;
+        long first = pow(5,even)%mod;
+        long second = pow(4,odd)%mod;
+        return (int)((first*second)%mod);
     }
-    
+    private long pow(long x, long n){
+        if(n==0) return 1;
+        long temp = pow(x,n/2);
+        if(n%2==0){
+            return (temp*temp)%mod;
+        }else{
+            return (x*temp*temp)%mod;
+        }
+    }
 }
