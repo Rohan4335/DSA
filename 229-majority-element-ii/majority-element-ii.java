@@ -1,27 +1,37 @@
 class Solution {
     public List<Integer> majorityElement(int[] nums) {
-        // Create a frequency map to store the count of each element
-        Map<Integer, Integer> elementCountMap = new HashMap<>();
-        
-        // Iterate through the input array to count element occurrences
-        for (int i = 0; i < nums.length; i++) {
-            elementCountMap.put(nums[i], elementCountMap.getOrDefault(nums[i], 0) + 1);
-        }
-        
-        List<Integer> majorityElements = new ArrayList<>();
-        int threshold = nums.length / 3;
-        
-        // Iterate through the frequency map to identify majority elements
-        for (Map.Entry<Integer, Integer> entry : elementCountMap.entrySet()) {
-            int element = entry.getKey();
-            int count = entry.getValue();
-            
-            // Check if the element count is greater than the threshold
-            if (count > threshold) {
-                majorityElements.add(element);
+        int ele1 = 0;
+        int ele2 = 0;
+        int freq1 = 0;
+        int freq2 = 0;
+        for(int num : nums){
+             if (num == ele1) {
+                freq1++;
+            } else if (num == ele2) {
+                freq2++;
+            } else if (freq1 == 0) {
+                ele1 = num;
+                freq1++;
+            } else if (freq2 == 0) {
+                ele2 = num;
+                freq2++;
+            } else {
+                freq1--;
+                freq2--;
             }
         }
-        
-        return majorityElements;
+        freq1 = 0; 
+        freq2 = 0;
+        for(int i=0; i<nums.length; i++){
+            if(nums[i] == ele1){
+                freq1++;
+            }else if(nums[i] == ele2){
+                freq2++;
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        if(freq1 > nums.length/3) res.add(ele1);
+        if(freq2 > nums.length/3) res.add(ele2);
+        return res;
     }
 }
