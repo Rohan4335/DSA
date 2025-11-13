@@ -12,7 +12,7 @@ class Solution {
         }
         list.add(nums[i]);
         helper(result, list,i+1,nums);
-        list.remove(list.get(list.size() -1));
+        list.remove(list.size()-1);
         helper(result ,list, i+1, nums);
     }
 }
