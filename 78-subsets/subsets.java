@@ -1,18 +1,33 @@
 class Solution {
-    public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        List<Integer> list = new ArrayList<>();
-        helper(result,list ,0,nums);
-        return result;
-    }
-    public void helper(List<List<Integer>> result, List<Integer> list,int i, int[] nums){
+
+
+
+    public void myfun(int[] nums,int i,List<Integer> li,List<List<Integer>> ans){
+
         if(i == nums.length){
-            result.add(new ArrayList<>(list));
+            ans.add(new ArrayList<>(li));
             return;
         }
-        list.add(nums[i]);
-        helper(result, list,i+1,nums);
-        list.remove(list.size()-1);
-        helper(result ,list, i+1, nums);
+
+        li.add(nums[i]);
+        myfun(nums,i+1,li,ans);
+
+        li.remove(li.size()-1);
+      
+        myfun(nums,i+1,li,ans);
+    }
+
+
+
+    public List<List<Integer>> subsets(int[] nums) {
+
+        List<List<Integer>> ans = new ArrayList<>();
+
+        List<Integer> li = new ArrayList<>();
+
+        myfun(nums,0,li,ans);
+
+        return ans;
+        
     }
 }
