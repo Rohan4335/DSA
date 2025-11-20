@@ -14,15 +14,15 @@ class Solution {
         return list;
     }
     void helper(List<String> list, String digits, int idx, StringBuilder comb, Map<Character, String>  map){
-        if(idx == digits.length()){
+        if(comb.length() == digits.length()){
             list.add(comb.toString());
             return;
         }
         String letters = map.get(digits.charAt(idx));
-        for(char letter: letters.toCharArray()){
-            comb.append(letter);
-            helper(list, digits, idx + 1, comb, map);
-            comb.deleteCharAt(comb.length() - 1);
+        for(char ch : letters.toCharArray()){
+            comb.append(ch);
+            helper(list, digits, idx+1, comb, map);
+            comb.deleteCharAt(comb.length()-1);
         }
     }
 }
