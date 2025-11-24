@@ -1,60 +1,68 @@
 class Solution {
-    public List<List<String>> solveNQueens(int n) {
-        List<List<String>> ans = new ArrayList<>();
-        char[][] board = new char[n][n];
-        nQueens(ans, board , n, 0);
-        return ans;
-    }
-    public void nQueens(List<List<String>> ans, char[][] board, int n, int row){
-        if(row == n){
-            saveBoard(board, ans);
-            return;
-        }
-        for(int j=0; j<n; j++){
-            if(isSafe(board, row, j, n)){
-                board[row][j] = 'Q';
-                nQueens(ans, board, n ,row+1);
-                board[row][j] = '.';
+    // Helper function to check if placing a queen at position (row,col) is safe
+    private boolean isSafePlace(int n, char[][] nQueens, int row, int col) {
+        // Check if there's any queen in the same column above current position
+        for (int i = 0; i < n; i++) {
+            if (nQueens[i][col] == 'Q') {
+                return false;
             }
         }
-    }
-    public void saveBoard(char[][] board, List<List<String>> ans){
-        List<String> newBoard = new ArrayList<>();
-        for(int i=0; i< board.length; i++){
-            String row = "";
-            for(int j=0; j< board[0].length; j++){
-                if(board[i][j] == 'Q'){
-                    row += 'Q';
-                }else{
-                    row += '.';
-                }
+
+        // Check upper-left diagonal for any queen
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (nQueens[i][j] == 'Q') {
+                return false;
             }
-                newBoard.add(row);
         }
-        ans.add(newBoard);
+
+        // Check upper-right diagonal for any queen
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+            if (nQueens[i][j] == 'Q') {
+                return false;
+            }
+        }
+
+        // If no conflicts found, position is safe
+        return true;
     }
 
-    boolean isSafe(char[][] board, int row, int col, int n){
-        for(int j= 0; j<n; j++){
-            if(board[row][j] == 'Q'){
-                return false;
+    // Recursive helper function to solve N-Queens problem
+    private void solveNQueens(int n, List<List<String>> output, char[][] nQueens, int row) {
+        // Base case: if we've placed queens in all rows, we found a valid solution
+        if (row == n) {
+            List<String> solution = new ArrayList<>();
+            for (char[] rowArray : nQueens) {
+                solution.add(new String(rowArray));
+            }
+            output.add(solution);
+            return;
+        }
+
+        // Try placing queen in each column of current row
+        for (int col = 0; col < n; col++) {
+            // If current position is safe
+            if (isSafePlace(n, nQueens, row, col)) {
+                // Place queen
+                nQueens[row][col] = 'Q';
+                // Recursively solve for next row
+                solveNQueens(n, output, nQueens, row + 1);
+                // Backtrack: remove queen for trying next position
+                nQueens[row][col] = '.';
             }
         }
-        for(int i= 0; i<n; i++){
-            if(board[i][col] == 'Q'){
-                return false;
-            }
+    }
+
+    // Main function to solve N-Queens problem
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> output = new ArrayList<>();  // Stores all valid solutions
+        char[][] nQueens = new char[n][n];  // Initialize empty board
+        
+        // Fill the board with dots
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(nQueens[i], '.');
         }
-        for(int i=row, j=col; i>=0 && j<n; i--, j++){
-            if(board[i][j] == 'Q'){
-                return false;
-            }
-        }
-        for(int i=row, j=col; i>=0 && j>=0; i--, j--){
-            if(board[i][j] == 'Q'){
-                return false;
-            }
-        }
-        return true;
+        
+        solveNQueens(n, output, nQueens, 0); // Start solving from row 0
+        return output;
     }
 }
