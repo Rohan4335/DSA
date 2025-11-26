@@ -6,15 +6,13 @@ class Solution {
             char ch = t.charAt(i);
             map.put(ch, map.getOrDefault(ch,0)+1);
         }
-        for(int i = 0; i<s.length(); i++){
-            map.put(s.charAt(i),map.get(s.charAt(i)) -1);
+        for(char c: s.toCharArray()){
+            map.put(c, map.get(c) -1);
+            if(map.get(c) == 0){
+                map.remove(c);
+            } 
         }
-        for(char k: map.keySet()){
-            if(map.get(k) != 0){
-                ans = k;
-            }
-        }
-        return ans;
+        return (char) map.keySet().toArray()[0];
         
     }
 }
