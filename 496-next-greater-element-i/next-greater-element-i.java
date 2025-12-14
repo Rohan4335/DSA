@@ -1,17 +1,19 @@
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-        int[] ans = new int[10001];
-        Stack<Integer> st =  new Stack<>();
-        for(int i = nums2.length-1; i>=0; i--){
-            while(!st.isEmpty() && st.peek() <= nums2[i]){
-                st.pop();
+        Map<Integer, Integer> ng = new HashMap<>();
+        Deque<Integer> st = new ArrayDeque<>();
+
+        for (int num : nums2) {
+            while (!st.isEmpty() && st.peek() < num) {
+                ng.put(st.pop(), num);
             }
-            ans[nums2[i]] = st.isEmpty() ? -1 : st.peek();
-            st.push(nums2[i]);
+            st.push(num);
         }
-        for(int i = 0; i<nums1.length; i++){
-            nums1[i] = ans[nums1[i]];
+
+        int[] res = new int[nums1.length];
+        for (int i = 0; i < nums1.length; i++) {
+            res[i] = ng.getOrDefault(nums1[i], -1);
         }
-        return nums1;
+        return res;        
     }
 }
