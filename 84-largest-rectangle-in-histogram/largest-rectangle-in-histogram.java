@@ -21,8 +21,6 @@ class Solution {
         }
         long area = 0;
         for(int i =0 ; i<n; i++){
-            int left = i - leftarr[i];
-            int right = rightarr[i] - i;
             area = Math.max(area, (rightarr[i] - leftarr[i] - 1)*heights[i]);
          }
          return (int)area;
