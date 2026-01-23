@@ -25,23 +25,23 @@ class Solution {
     public int widthOfBinaryTree(TreeNode root) {
         Queue<Pair> q = new LinkedList<>();
         int maxWidth = -1;
-        q.add(new Pair(root,0));
+        q.add(new Pair(root, 0));
         while(!q.isEmpty()){
-            int lvlLength = q.size();
+            int length = q.size();
+            int start = q.peek().idx;
             int index = 0;
-            int startAt = q.peek().idx;
-            for(int i = 0; i<lvlLength; i++){
+            for(int i = 0; i<length; i++){
                 Pair p = q.poll();
-                TreeNode curr = p.node;
+                TreeNode pvt = p.node;
                 index = p.idx;
-                if(curr.left != null){
-                    q.add(new Pair(curr.left, 2*index+1));
+                if(pvt.left != null){
+                    q.add(new Pair(pvt.left, 2*index+1));
                 }
-                if(curr.right != null){
-                    q.add(new Pair(curr.right, 2*index+2));
+                if(pvt.right != null){
+                    q.add(new Pair(pvt.right, 2*index+2));
                 }
             }
-            maxWidth = Math.max(maxWidth, index - startAt + 1);
+            maxWidth = Math.max(maxWidth, index - start +1);
         }
         return maxWidth;
     }
