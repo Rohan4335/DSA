@@ -13,36 +13,21 @@
  *     }
  * }
  */
- class Pair{
-    TreeNode node;
-    int idx;
-    Pair(TreeNode n, int i){
-        node = n;
-        idx = i;
-    }
- }
 class Solution {
+    ArrayList<Integer> list = new ArrayList<>();
+    int max = 0;
     public int widthOfBinaryTree(TreeNode root) {
-        Queue<Pair> q = new LinkedList<>();
-        int maxWidth = -1;
-        q.add(new Pair(root, 0));
-        while(!q.isEmpty()){
-            int length = q.size();
-            int start = q.peek().idx;
-            int index = 0;
-            for(int i = 0; i<length; i++){
-                Pair p = q.poll();
-                TreeNode pvt = p.node;
-                index = p.idx;
-                if(pvt.left != null){
-                    q.add(new Pair(pvt.left, 2*index+1));
-                }
-                if(pvt.right != null){
-                    q.add(new Pair(pvt.right, 2*index+2));
-                }
-            }
-            maxWidth = Math.max(maxWidth, index - start +1);
+        helper(root, 0, 0);
+        return max;
+    }
+    public void helper(TreeNode root, int level, int index){
+        if(root == null) return;
+        if(list.size() == level){
+            list.add(index);
         }
-        return maxWidth;
+        int currWidth = Math.abs(list.get(level)-index)+1;
+        max = Math.max(currWidth, max);
+        helper(root.left, level+1, 2*index+1);
+        helper(root.right, level+1, 2*index+2);
     }
 }
