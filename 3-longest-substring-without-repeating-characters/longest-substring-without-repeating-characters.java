@@ -7,7 +7,7 @@ class Solution {
         for(int high = 0; high< n; high++){
             char ch = s.charAt(high);
             if(map.containsKey(ch)){
-                low = Math.max(low, map.get(ch)+1);
+                low =Math.max(low, map.get(ch) + 1);
             }
             map.put(ch, high);
             max = Math.max(max, high - low +1);
