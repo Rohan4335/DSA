@@ -1,35 +1,23 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-class Solution { 
+class Solution {
+    private int i = 0;
+    private int p = 0;
+
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for(int i = 0; i<inorder.length; i++){
-            map.put(inorder[i], i);
-        }
-        return helper(preorder,map, 0, 0, inorder.length-1);
+        return build(preorder, inorder, Integer.MIN_VALUE);
     }
-    public TreeNode helper(int[] preorder, Map<Integer, Integer> map, int rootIndex, int left, int right){
-        TreeNode root = new TreeNode(preorder[rootIndex]);
-        int mid = map.get(preorder[rootIndex]);
-        if(left < mid){
-            root.left = helper(preorder,map, rootIndex+1, left, mid-1);
+
+    private TreeNode build(int[] preorder, int[] inorder, int stop) {
+        if (p >= preorder.length) {
+            return null;
         }
-        if(right > mid){
-            root.right = helper(preorder,map, rootIndex+mid-left+1, mid+1, right);
+        if (inorder[i] == stop) {
+            ++i;
+            return null;
         }
-        return root;
+
+        TreeNode node = new TreeNode(preorder[p++]);
+        node.left = build(preorder, inorder, node.val);
+        node.right = build(preorder, inorder, stop);
+        return node;
     }
 }
