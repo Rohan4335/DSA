@@ -15,12 +15,26 @@
  */
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> list = new ArrayList<>();
-        if(root == null) return list;
-        list.addAll( inorderTraversal(root.left));
-        list.add(root.val);
-        list.addAll(inorderTraversal(root.right));
-        return list;
+        List<Integer> ans = new ArrayList<>();
+        while(root != null){
+            if(root.left == null){
+                ans.add(root.val);
+                root = root.right;
+            }else{
+                TreeNode ip = root.left;
+                while(ip.right != null && ip.right != root){
+                    ip = ip.right;
+                }
+                if(ip.right == null){
+                    ip.right = root;
+                    root = root.left;
+                }else{
+                    ip.right = null;
+                    ans.add(root.val);
+                    root = root.right;
+                }
+            }
+        }
+        return ans;
     }
 }
-    
