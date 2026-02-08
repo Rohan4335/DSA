@@ -19,7 +19,7 @@ class Solution {
     }
     public boolean valid(TreeNode root, long min, long max){
         if(root == null) return true;
-        if(!(root.val < max && root.val > min)) return false;
+        if(root.val >= max || root.val <= min) return false;
         return valid(root.left, min, root.val) && valid(root.right, root.val, max);
     }
 }
