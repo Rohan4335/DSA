@@ -2,11 +2,13 @@ class Solution {
     public int shipWithinDays(int[] weights, int days) {
         int maxEle = -1;
         int ans = 0;
+        int sum = 0;
         for(int k: weights){
+            sum +=k;
             maxEle = Math.max(maxEle, k);
         }
         int low = maxEle;
-        int high = Integer.MAX_VALUE;
+        int high = sum;
         while(low <= high){
             int mid = low + (high - low)/2;
             if(canCarry(weights, mid, days)){
