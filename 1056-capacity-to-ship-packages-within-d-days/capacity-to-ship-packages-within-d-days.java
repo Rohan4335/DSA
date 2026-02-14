@@ -21,16 +21,15 @@ class Solution {
         return ans;
     }
     public boolean canCarry(int[] weights, int maxWeight, int days){
-        int j = 0;
-        int totalWeight = 0;
-        for(int i=0; i<days; i++){
-            int sum = 0;
-            while(j <weights.length && sum + weights[j] <= maxWeight){
-                sum += weights[j];
-                j++;
+        int d = 1;
+        int sum = 0;
+        for(int i=0; i<weights.length; i++){
+            if(sum + weights[i] > maxWeight){
+                d++;
+                sum =0;
             }
-            totalWeight += sum;
+            sum += weights[i];
         }
-        return j==weights.length;
+        return d<=days;
     }
 }
